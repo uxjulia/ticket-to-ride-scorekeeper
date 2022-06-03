@@ -27,10 +27,10 @@ const ScoreInput = ({ onClick, handleUndo }) => {
     onClick(event, score);
   };
   return (
-    <Wrapper className="mt-2 mb-3">
+    <Wrapper className="mb-3">
       <Button
         key="1"
-        className="my-1 ps-5 justify-content-between"
+        className="mb-1 ps-5 justify-content-between"
         color="light"
         fullWidth
         variant="contained"
