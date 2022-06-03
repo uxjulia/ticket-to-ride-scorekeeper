@@ -79,34 +79,36 @@ const DestinationContainer = (props) => {
     setCount(count + 1);
   };
   return (
-    <Accordion
-      sx={{ marginBottom: "1rem" }}
-      disableGutters
-      defaultExpanded
-      square={true}
-      variant="outlined"
-    >
-      <AccordionSummary expandIcon={<FontAwesomeIcon icon={faAngleDown} />}>
-        <Typography variant="button">Destinations</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Destination {...props} />
-        <Destination {...props} />
-        <Destination {...props} />
-        {count > 3 && <Destination {...props} />}
-        {count > 4 && <Destination {...props} />}
-        {count > 5 && <Destination {...props} />}
-        {count > 6 && <Destination {...props} />}
-        {count > 7 && <Destination {...props} />}
-        {count > 8 && <Destination {...props} />}
-        {count > 9 && <Destination {...props} />}
-        {count < 10 && (
-          <Button onClick={handleAdd}>
-            <FontAwesomeIcon icon={faPlus} size="sm" className="me-2" /> Add
-          </Button>
-        )}
-      </AccordionDetails>
-    </Accordion>
+    <Box mb={2}>
+      <Accordion
+        sx={{ marginBottom: "1rem" }}
+        disableGutters
+        defaultExpanded
+        square={true}
+        variant="outlined"
+      >
+        <AccordionSummary expandIcon={<FontAwesomeIcon icon={faAngleDown} />}>
+          <Typography variant="button">Destinations</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Destination {...props} />
+          <Destination {...props} />
+          <Destination {...props} />
+          {count > 3 && <Destination {...props} />}
+          {count > 4 && <Destination {...props} />}
+          {count > 5 && <Destination {...props} />}
+          {count > 6 && <Destination {...props} />}
+          {count > 7 && <Destination {...props} />}
+          {count > 8 && <Destination {...props} />}
+          {count > 9 && <Destination {...props} />}
+          {count < 10 && (
+            <Button onClick={handleAdd}>
+              <FontAwesomeIcon icon={faPlus} size="sm" className="me-2" /> Add
+            </Button>
+          )}
+        </AccordionDetails>
+      </Accordion>
+    </Box>
   );
 };
 
