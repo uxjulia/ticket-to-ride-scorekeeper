@@ -1,5 +1,4 @@
 import React from "react";
-// import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import PropTypes from "prop-types";
@@ -8,10 +7,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-// import OutlinedInput from "@mui/material/OutlinedInput";
-// import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-// import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,6 +16,8 @@ import {
   faEyeSlash,
 } from "@fortawesome/pro-regular-svg-icons";
 import CustomInput from "./CustomInput";
+import { Button } from "@mui/material";
+import { faPlus } from "@fortawesome/pro-solid-svg-icons";
 
 const Destination = ({ handleScore }) => {
   const [value, setValue] = React.useState("");
@@ -76,6 +74,10 @@ const Destination = ({ handleScore }) => {
 };
 
 const DestinationContainer = (props) => {
+  const [count, setCount] = React.useState(3);
+  const handleAdd = () => {
+    setCount(count + 1);
+  };
   return (
     <Accordion
       sx={{ marginBottom: "1rem" }}
@@ -91,6 +93,18 @@ const DestinationContainer = (props) => {
         <Destination {...props} />
         <Destination {...props} />
         <Destination {...props} />
+        {count > 3 && <Destination {...props} />}
+        {count > 4 && <Destination {...props} />}
+        {count > 5 && <Destination {...props} />}
+        {count > 6 && <Destination {...props} />}
+        {count > 7 && <Destination {...props} />}
+        {count > 8 && <Destination {...props} />}
+        {count > 9 && <Destination {...props} />}
+        {count < 10 && (
+          <Button onClick={handleAdd}>
+            <FontAwesomeIcon icon={faPlus} size="sm" className="me-2" /> Add
+          </Button>
+        )}
       </AccordionDetails>
     </Accordion>
   );

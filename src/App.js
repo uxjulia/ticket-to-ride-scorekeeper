@@ -8,11 +8,13 @@ import HistoryLog from "./components/HistoryLog";
 import Scoreboard from "./components/Scoreboard";
 import Destination from "./components/Destination";
 import Header from "./components/Header";
-import { Box } from "@mui/material";
-// Game events:
-// Claim a route
-// Complete a destination card
-// Achieve longest road
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import Card from "@mui/material/Card";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrainTrack } from "@fortawesome/pro-regular-svg-icons";
 
 const HistoryEvent = (id, event, points) => {
   const date = new Date();
@@ -61,14 +63,30 @@ function App() {
     setScore(0);
     setHistory([]);
   };
+
+  const handleLongestRoad = (e) => {
+    if (e.target.checked) {
+      handleScore("Acheived longest road", 10);
+    } else {
+      handleScore("Lost longest road", -Math.abs(10));
+    }
+  };
   return (
     <Box p={2}>
       <Header title="Ticket to Ride - Score Keeper" />
-      <div className="container">
+      <Box
+        sx={{
+          position: "sticky",
+          top: "10px",
+          backgroundColor: "#ffffff",
+          zIndex: "2",
+        }}
+        className="container"
+      >
         <div className="col">
           <Scoreboard score={score} />
         </div>
-      </div>
+      </Box>
       <div className="container mt-3 mb-4">
         <CustomTheme>
           <div className="row">
@@ -80,8 +98,40 @@ function App() {
               />
             </div>
             <div className="col-md-6">
+              <Card
+                sx={{
+                  backgroundColor: "#d9e9d9",
+                  paddingRight: "1rem",
+                  paddingTop: "3px",
+                  paddingBottom: "3px",
+                  marginBottom: "1rem",
+                }}
+                variant="outlined"
+              >
+                <Box className="d-flex justify-content-end align-items-center">
+                  <FormControlLabel
+                    control={<Switch onChange={handleLongestRoad} />}
+                    label={
+                      <>
+                        <FontAwesomeIcon className="me-2" icon={faTrainTrack} />
+                        Longest Path
+                      </>
+                    }
+                    labelPlacement="start"
+                  />
+                </Box>
+              </Card>
               <Destination handleScore={handleScore} key={reset} />
               <HistoryLog history={history} />
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleReset}
+                key="reset"
+                id="reset"
+              >
+                Start New Game
+              </Button>
             </div>
           </div>
         </CustomTheme>
@@ -89,5 +139,5 @@ function App() {
     </Box>
   );
 }
-
+// TODO: Add a confirmation dialog when starting a new game
 export default App;

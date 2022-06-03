@@ -21,13 +21,13 @@ const Wrapper = styled.div`
   }
 `;
 
-const ScoreInput = ({ onClick, handleUndo, handleReset }) => {
+const ScoreInput = ({ onClick, handleUndo }) => {
   const handleClick = (score) => {
     const event = "Claimed a route";
     onClick(event, score);
   };
   return (
-    <Wrapper className="mt-3 mb-3">
+    <Wrapper className="mt-2 mb-3">
       <Button
         key="1"
         className="my-1 ps-5 justify-content-between"
@@ -138,17 +138,6 @@ const ScoreInput = ({ onClick, handleUndo, handleReset }) => {
         <FontAwesomeIcon icon={faRotateLeft} className="me-2" />
         Undo
       </Button>
-      <div className="mt-4 mb-3">
-        <Button
-          variant="contained"
-          fullWidth
-          onClick={handleReset}
-          key="reset"
-          id="reset"
-        >
-          Start New Game
-        </Button>
-      </div>
     </Wrapper>
   );
 };
@@ -156,6 +145,5 @@ export default ScoreInput;
 
 ScoreInput.propTypes = {
   onClick: PropTypes.func.isRequired,
-  handleReset: PropTypes.func.isRequired,
   handleUndo: PropTypes.func.isRequired,
 };
