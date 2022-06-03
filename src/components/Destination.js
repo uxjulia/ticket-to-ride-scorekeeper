@@ -14,14 +14,19 @@ import {
   faAngleDown,
   faEye,
   faEyeSlash,
+  faToggleOn,
+  faToggleOff,
 } from "@fortawesome/pro-regular-svg-icons";
 import CustomInput from "./CustomInput";
 import { Button } from "@mui/material";
 import { faPlus } from "@fortawesome/pro-solid-svg-icons";
 
 const Destination = ({ handleScore }) => {
+  const [nickName, setNickname] = React.useState("");
+  const [showNickname, setShowNickname] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [show, setShow] = React.useState(true);
+  const [showText, setShowText] = React.useState(true);
   const handleCheck = (e) => {
     if (e.target.checked) {
       handleScore("Reached desination", value);
@@ -34,38 +39,82 @@ const Destination = ({ handleScore }) => {
   };
   return (
     <div className="mb-3">
-      <Box>
-        <CustomInput
-          type={show ? "number" : "password"}
-          fullWidth
-          label="Destination Value"
-          onChange={(e) => setValue(e.target.value)}
-          size="small"
-          value={value}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={() => setShow(!show)}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {show ? (
-                    <FontAwesomeIcon icon={faEyeSlash} size="xs" />
-                  ) : (
-                    <FontAwesomeIcon icon={faEye} size="xs" />
-                  )}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+      <Box className="d-flex align-items-center">
+        <Box className="me-1">
+          {showNickname && (
+            <IconButton onClick={() => setShowNickname(!showNickname)}>
+              <FontAwesomeIcon icon={faToggleOn} size="2xs" />
+            </IconButton>
+          )}
+          {!showNickname && (
+            <IconButton onClick={() => setShowNickname(!showNickname)}>
+              <FontAwesomeIcon icon={faToggleOff} size="2xs" />
+            </IconButton>
+          )}
+        </Box>
+        <Box className="w-100">
+          {!showNickname && (
+            <CustomInput
+              type={show ? "number" : "password"}
+              fullWidth
+              label="Point Value"
+              onChange={(e) => setValue(e.target.value)}
+              size="small"
+              value={value}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShow(!show)}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {show ? (
+                        <FontAwesomeIcon icon={faEyeSlash} size="2xs" />
+                      ) : (
+                        <FontAwesomeIcon icon={faEye} size="2xs" />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+          {showNickname && (
+            <CustomInput
+              type={showText ? "text" : "password"}
+              fullWidth
+              label="Nickname"
+              onChange={(e) => setNickname(e.target.value)}
+              size="small"
+              value={nickName}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowText(!showText)}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showText ? (
+                        <FontAwesomeIcon icon={faEyeSlash} size="2xs" />
+                      ) : (
+                        <FontAwesomeIcon icon={faEye} size="2xs" />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+        </Box>
       </Box>
       <Box className="d-flex justify-content-end align-items-center mt-1">
         <FormControlLabel
           control={<Switch onChange={handleCheck} />}
-          label="Complete"
+          label={<Typography variant="body2">Complete</Typography>}
           labelPlacement="start"
         />
       </Box>
