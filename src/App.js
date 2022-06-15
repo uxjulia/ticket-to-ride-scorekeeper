@@ -44,6 +44,23 @@ function App() {
   const [score, setScore] = React.useState(0);
   const [history, setHistory] = React.useState([]);
   const [reset, setReset] = React.useState(new Date());
+  const [destinationPoints, setDestinationPoints] = React.useState(0);
+  const [stealthMode, setStealthMode] = React.useState(false);
+
+  React.useEffect(() => {
+    let x = getDestinationPoints();
+    setDestinationPoints(x);
+  }, [numOfEvents]);
+
+  const getDestinationPoints = () => {
+    let dPoints = history.map((event) => {
+      return event.type === "destination" ? event.points : 0;
+    });
+    console.log("dpoints", dPoints);
+    let sum = dPoints.length === 0 ? 0 : dPoints.reduce((a, b) => a + b, 0);
+    console.log("sum", sum);
+    return sum;
+  };
 
   const handleHistory = (event, points, type) => {
     let newEvent = HistoryEvent(numOfEvents, event, points, type);
@@ -64,7 +81,7 @@ function App() {
     const eventHistory = history;
     const lastEvent = eventHistory[0];
     let idx = 0;
-    if (lastEvent.type === "path") {
+    if (lastEvent.type !== "route") {
       idx = eventHistory.findIndex((e) => e.type === "route");
     }
     if (idx !== -1) {
@@ -89,6 +106,7 @@ function App() {
       handleScore("Lost longest path", -Math.abs(10), "path");
     }
   };
+
   return (
     <Wrapper>
       <Box p={2}>
@@ -103,7 +121,15 @@ function App() {
           className="container"
         >
           <div className="col">
-            <Scoreboard score={score} />
+            {stealthMode ? (
+              <Scoreboard
+                score={
+                  score - destinationPoints < 0 ? 0 : score - destinationPoints
+                }
+              />
+            ) : (
+              <Scoreboard score={score} />
+            )}
           </div>
         </Box>
         <div className="container mt-3 mb-4">
@@ -152,7 +178,13 @@ function App() {
                   Undo Route
                 </Button>
                 <Box my={1}>
-                  <Destination handleScore={handleScore} key={reset} />
+                  <Destination
+                    stealthMode={stealthMode}
+                    setStealthMode={setStealthMode}
+                    points={destinationPoints}
+                    handleScore={handleScore}
+                    key={reset}
+                  />
                 </Box>
                 <HistoryLog history={history} />
                 <Button

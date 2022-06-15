@@ -1,6 +1,4 @@
 import React from "react";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Switch from "@mui/material/Switch";
 import PropTypes from "prop-types";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -14,6 +12,8 @@ import {
   faAngleDown,
   faEye,
   faEyeSlash,
+  faToggleOn,
+  faToggleOff,
 } from "@fortawesome/pro-regular-svg-icons";
 import CustomInput from "./CustomInput";
 import { Button } from "@mui/material";
@@ -54,27 +54,39 @@ const Destination = ({ handleScore }) => {
     if (val === 100) {
       if (status === -1) {
         let nScore = value * 2;
-        handleScore("Reached desination", nScore);
+        handleScore("Reached desination", nScore, "destination");
       }
       if (status === 0) {
-        handleScore("Reached desination", value);
+        handleScore("Reached desination", value, "destination");
       }
       setStatus(1);
     } else if (val === 50) {
       if (status === 1) {
-        handleScore("Undo reaching destination", -Math.abs(value));
+        handleScore(
+          "Undo reaching destination",
+          -Math.abs(value),
+          "destination"
+        );
       }
       if (status === -1) {
-        handleScore("Undo failed destination", value);
+        handleScore("Undo failed destination", value, "destination");
       }
       setStatus(0);
     } else if (val === 0) {
       if (status === 1) {
         let nScore = value * 2;
-        handleScore("Failed to reach destination", -Math.abs(nScore));
+        handleScore(
+          "Failed to reach destination",
+          -Math.abs(nScore),
+          "destination"
+        );
       }
       if (status === 0) {
-        handleScore("Failed to reach destination", -Math.abs(value));
+        handleScore(
+          "Failed to reach destination",
+          -Math.abs(value),
+          "destination"
+        );
       }
       setStatus(-1);
     }
@@ -132,7 +144,12 @@ const Destination = ({ handleScore }) => {
   );
 };
 
-const DestinationContainer = (props) => {
+const DestinationContainer = ({
+  points,
+  stealthMode,
+  setStealthMode,
+  ...props
+}) => {
   const [count, setCount] = React.useState(3);
   const handleAdd = () => {
     setCount(count + 1);
@@ -150,6 +167,33 @@ const DestinationContainer = (props) => {
           <Typography variant="button">Destinations</Typography>
         </AccordionSummary>
         <AccordionDetails>
+          {points > 0 && (
+            <Box className="d-flex justify-content-between align-content-center mb-4">
+              {stealthMode && (
+                <Box>
+                  <IconButton onClick={() => setStealthMode(false)}>
+                    <FontAwesomeIcon icon={faToggleOn} size="2xs" />
+                  </IconButton>{" "}
+                  <Typography variant="subtitle2" component="span">
+                    Stealth Mode
+                  </Typography>
+                </Box>
+              )}
+              {!stealthMode && (
+                <Box>
+                  <IconButton onClick={() => setStealthMode(true)}>
+                    <FontAwesomeIcon icon={faToggleOff} size="2xs" />
+                  </IconButton>{" "}
+                  <Typography variant="subtitle2" component="span">
+                    Stealth Mode
+                  </Typography>
+                </Box>
+              )}
+              <Typography color="primary" variant="subtitle2" component="span">
+                Points from Destinations: {points}
+              </Typography>
+            </Box>
+          )}
           <Destination {...props} />
           <Destination {...props} />
           <Destination {...props} />
@@ -169,6 +213,12 @@ const DestinationContainer = (props) => {
       </Accordion>
     </Box>
   );
+};
+
+DestinationContainer.propTypes = {
+  points: PropTypes.number.isRequired,
+  stealthMode: PropTypes.bool.isRequired,
+  setStealthMode: PropTypes.func.isRequired,
 };
 
 Destination.propTypes = {
