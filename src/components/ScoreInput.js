@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import styled from "@emotion/styled";
-import { faRotateLeft, faVanShuttle } from "@fortawesome/pro-solid-svg-icons";
+import { faVanShuttle } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import Typography from "@mui/material/Typography";
@@ -11,8 +11,8 @@ const Wrapper = styled.div`
     font-family: monospace;
   }
   button {
-    max-height: 40px;
-    min-height: 40px;
+    max-height: 50px;
+    min-height: 50px;
   }
 
   button#undo {
@@ -21,18 +21,20 @@ const Wrapper = styled.div`
   }
 `;
 
-const ScoreInput = ({ onClick, handleUndo }) => {
+const ScoreInput = ({ onClick }) => {
   const handleClick = (score) => {
     const event = "Claimed a route";
-    onClick(event, score);
+    const type = "route";
+    onClick(event, score, type);
   };
   return (
-    <Wrapper className="mb-3">
+    <Wrapper className="mb-2">
       <Button
         key="1"
-        className="mb-1 ps-5 justify-content-between"
+        className="mb-2 ps-4 justify-content-between"
         color="light"
         fullWidth
+        size="large"
         variant="contained"
         onClick={() => handleClick(1)}
         id={1}
@@ -44,9 +46,10 @@ const ScoreInput = ({ onClick, handleUndo }) => {
       </Button>
       <Button
         key="2"
-        className="my-1 ps-5 justify-content-between"
+        className="my-2 ps-4 justify-content-between"
         color="light"
         fullWidth
+        size="large"
         variant="contained"
         onClick={() => handleClick(2)}
         id={2}
@@ -59,9 +62,10 @@ const ScoreInput = ({ onClick, handleUndo }) => {
       </Button>
       <Button
         key="4"
-        className="my-1 ps-5 justify-content-between"
+        className="my-2 ps-4 justify-content-between"
         color="light"
         fullWidth
+        size="large"
         variant="contained"
         onClick={() => handleClick(4)}
         id={4}
@@ -75,9 +79,10 @@ const ScoreInput = ({ onClick, handleUndo }) => {
       </Button>
       <Button
         key="7"
-        className="my-1 ps-5 justify-content-between"
+        className="my-2 ps-4 justify-content-between"
         color="light"
         fullWidth
+        size="large"
         variant="contained"
         onClick={() => handleClick(7)}
         id={7}
@@ -92,9 +97,10 @@ const ScoreInput = ({ onClick, handleUndo }) => {
       </Button>
       <Button
         key="10"
-        className="my-1 ps-5 justify-content-between"
+        className="my-2 ps-4 justify-content-between"
         color="light"
         fullWidth
+        size="large"
         variant="contained"
         onClick={() => handleClick(10)}
         id="10"
@@ -110,14 +116,15 @@ const ScoreInput = ({ onClick, handleUndo }) => {
       </Button>
       <Button
         key="15"
-        className="my-1 ps-5 justify-content-between"
+        className="my-2 ps-4 justify-content-between"
         color="light"
         fullWidth
+        size="large"
         variant="contained"
         onClick={() => handleClick(15)}
         id={15}
       >
-        <Typography mr={2}>6 - (15 pts)</Typography>
+        <Typography mr={1}>6 - (15 pts)</Typography>
         <div className="d-inline-flex justify-content-end">
           <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
           <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
@@ -126,17 +133,6 @@ const ScoreInput = ({ onClick, handleUndo }) => {
           <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
           <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
         </div>
-      </Button>
-      <Button
-        className="my-1"
-        color="light"
-        fullWidth
-        variant="contained"
-        onClick={handleUndo}
-        id="undo"
-      >
-        <FontAwesomeIcon icon={faRotateLeft} className="me-2" />
-        Undo
       </Button>
     </Wrapper>
   );
