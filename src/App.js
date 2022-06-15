@@ -149,7 +149,7 @@ function App() {
                   id="undo"
                 >
                   <FontAwesomeIcon icon={faRotateLeft} className="me-2" />
-                  Undo
+                  Undo Route
                 </Button>
                 <Box my={1}>
                   <Destination handleScore={handleScore} key={reset} />
