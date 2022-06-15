@@ -14,9 +14,17 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import Card from "@mui/material/Card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrainTrack } from "@fortawesome/pro-regular-svg-icons";
+import { faTrainTrack, faRotateLeft } from "@fortawesome/pro-regular-svg-icons";
+import styled from "@emotion/styled";
 
-const HistoryEvent = (id, event, points) => {
+const Wrapper = styled.div`
+  button#undo {
+    background-color: rgba(193, 160, 160, 0.8);
+    color: #333333;
+  }
+`;
+
+const HistoryEvent = (id, event, points, type) => {
   const date = new Date();
   let y = date.toLocaleDateString();
   let x = date.toLocaleTimeString();
@@ -25,6 +33,7 @@ const HistoryEvent = (id, event, points) => {
     time: x,
     id: id,
     event: event,
+    type: type,
     points: +points,
     description: `${event} for ${points} points`,
   };
@@ -36,25 +45,34 @@ function App() {
   const [history, setHistory] = React.useState([]);
   const [reset, setReset] = React.useState(new Date());
 
-  const handleHistory = (event, points) => {
-    let newEvent = HistoryEvent(numOfEvents, event, points);
+  const handleHistory = (event, points, type) => {
+    let newEvent = HistoryEvent(numOfEvents, event, points, type);
     setHistory([newEvent, ...history]);
     let x = numOfEvents;
     x += 1;
     setNumOfEvents(x);
   };
 
-  const handleScore = (event, points) => {
+  const handleScore = (event, points, type = "route") => {
     let p = +points;
     setScore(score + p);
-    handleHistory(event, p);
+    handleHistory(event, p, type);
   };
 
   const handleUndo = () => {
-    let newHistory = history.slice(1, history.length);
-    let newScore = score - history[history.length - 1].points;
-    setHistory(newHistory);
-    setScore(newScore);
+    if (history.length === 0) return;
+    const eventHistory = history;
+    const lastEvent = eventHistory[0];
+    let idx = 0;
+    if (lastEvent.type === "path") {
+      idx = eventHistory.findIndex((e) => e.type === "route");
+    }
+    if (idx !== -1) {
+      let newScore = score - eventHistory[idx].points;
+      eventHistory.splice(idx, 1);
+      setHistory(eventHistory);
+      setScore(newScore);
+    }
   };
 
   const handleReset = () => {
@@ -66,50 +84,52 @@ function App() {
 
   const handleLongestRoad = (e) => {
     if (e.target.checked) {
-      handleScore("Acheived longest road", 10);
+      handleScore("Acheived longest path", 10, "path");
     } else {
-      handleScore("Lost longest road", -Math.abs(10));
+      handleScore("Lost longest path", -Math.abs(10), "path");
     }
   };
   return (
-    <Box p={2}>
-      <Header title="Ticket to Ride - Score Keeper" />
-      <Box
-        sx={{
-          position: "sticky",
-          top: "10px",
-          backgroundColor: "#ffffff",
-          zIndex: "2",
-        }}
-        className="container"
-      >
-        <div className="col">
-          <Scoreboard score={score} />
-        </div>
-      </Box>
-      <div className="container mt-3 mb-4">
-        <CustomTheme>
-          <div className="row">
-            <div className="col-md-6">
-              <ScoreInput
-                onClick={handleScore}
-                handleUndo={handleUndo}
-                handleReset={handleReset}
-              />
-            </div>
-            <div className="col-md-6">
-              <Card
-                sx={{
-                  backgroundColor: "#d9e9d9",
-                  paddingRight: "1rem",
-                  paddingTop: "3px",
-                  paddingBottom: "3px",
-                  marginBottom: "1rem",
-                }}
-                variant="outlined"
-              >
-                <Box className="d-flex justify-content-end align-items-center">
+    <Wrapper>
+      <Box p={2}>
+        <Header title="Ticket to Ride - Score Keeper" />
+        <Box
+          sx={{
+            position: "sticky",
+            top: "10px",
+            backgroundColor: "#ffffff",
+            zIndex: "2",
+          }}
+          className="container"
+        >
+          <div className="col">
+            <Scoreboard score={score} />
+          </div>
+        </Box>
+        <div className="container mt-3 mb-4">
+          <CustomTheme>
+            <div className="row">
+              <div className="col-md-6">
+                <ScoreInput
+                  onClick={handleScore}
+                  handleUndo={handleUndo}
+                  handleReset={handleReset}
+                />
+              </div>
+              <div className="col-md-6">
+                <Card
+                  className="d-flex justify-content-end align-items-center"
+                  sx={{
+                    backgroundColor: "#d9e9d9",
+                    paddingRight: "1rem",
+                    paddingTop: "3px",
+                    paddingBottom: "3px",
+                    mb: ".5rem",
+                  }}
+                  variant="outlined"
+                >
                   <FormControlLabel
+                    key={reset}
                     control={<Switch onChange={handleLongestRoad} />}
                     label={
                       <>
@@ -119,24 +139,37 @@ function App() {
                     }
                     labelPlacement="start"
                   />
+                </Card>
+                <Button
+                  className="my-2"
+                  color="light"
+                  fullWidth
+                  variant="contained"
+                  onClick={handleUndo}
+                  id="undo"
+                >
+                  <FontAwesomeIcon icon={faRotateLeft} className="me-2" />
+                  Undo
+                </Button>
+                <Box my={1}>
+                  <Destination handleScore={handleScore} key={reset} />
                 </Box>
-              </Card>
-              <Destination handleScore={handleScore} key={reset} />
-              <HistoryLog history={history} />
-              <Button
-                variant="contained"
-                fullWidth
-                onClick={handleReset}
-                key="reset"
-                id="reset"
-              >
-                Start New Game
-              </Button>
+                <HistoryLog history={history} />
+                <Button
+                  variant="contained"
+                  fullWidth
+                  onClick={handleReset}
+                  key="reset"
+                  id="reset"
+                >
+                  Start New Game
+                </Button>
+              </div>
             </div>
-          </div>
-        </CustomTheme>
-      </div>
-    </Box>
+          </CustomTheme>
+        </div>
+      </Box>
+    </Wrapper>
   );
 }
 // TODO: Add a confirmation dialog when starting a new game
