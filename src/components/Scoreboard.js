@@ -7,14 +7,7 @@ import Box from "@mui/material/Box";
 
 const Scoreboard = ({ score }) => {
   return (
-    <Box
-      sx={{
-        position: "sticky",
-        top: "10px",
-        backgroundColor: "#ffffff",
-        zIndex: "2",
-      }}
-    >
+    <Box>
       <Card
         variant="outlined"
         sx={{ backgroundColor: "#292e3a", color: "#ffffff" }}

@@ -115,7 +115,7 @@ function App() {
           sx={{
             paddingTop: "10px",
             paddingBottom: "10px",
-            position: "fixed",
+            position: "sticky",
             top: "0",
             left: "0",
             right: "0",
@@ -136,7 +136,7 @@ function App() {
             )}
           </div>
         </Box>
-        <div className="container mt-3 mb-4" style={{ paddingTop: "100px" }}>
+        <div className="container mt-3 mb-4">
           <CustomTheme>
             <div className="row">
               <div className="col-md-6">

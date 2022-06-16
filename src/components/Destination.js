@@ -25,6 +25,7 @@ const marks = [
   { value: 50, label: "-" },
   { value: 100, label: "Completed" },
 ];
+
 const DestinationSlider = ({ handleChange }) => {
   return (
     <Box>
@@ -46,10 +47,14 @@ DestinationSlider.propTypes = {
   handleChange: PropTypes.func.isRequired,
 };
 
-const Destination = ({ handleScore }) => {
+const Destination = ({ id, handleScore, handlePossiblePoints }) => {
   const [value, setValue] = React.useState("");
   const [show, setShow] = React.useState(true);
   const [status, setStatus] = React.useState(0);
+  const handleInput = (points) => {
+    setValue(points);
+    handlePossiblePoints(id, points);
+  };
   const handleChange = (e, val) => {
     if (val === 100) {
       if (status === -1) {
@@ -104,8 +109,7 @@ const Destination = ({ handleScore }) => {
             type={show ? "number" : "password"}
             fullWidth
             label="Point Value"
-            onChange={(e) => setValue(e.target.value)}
-            size="small"
+            onChange={(e) => handleInput(e.target.value)}
             value={value}
             InputProps={{
               endAdornment: (
@@ -148,11 +152,28 @@ const DestinationContainer = ({
   points,
   stealthMode,
   setStealthMode,
-  ...props
+  handleScore,
 }) => {
   const [count, setCount] = React.useState(3);
+  const [possiblePointsArr, setPossiblePointsArr] = React.useState([]);
+  const [possiblePoints, setPossiblePoints] = React.useState(0);
   const handleAdd = () => {
     setCount(count + 1);
+  };
+  const handlePossiblePoints = (id, points) => {
+    console.log("handlePossiblePoints", points);
+    let p = +points;
+    let arr = possiblePointsArr;
+    arr[id] = p;
+    console.log(arr);
+    setPossiblePointsArr(arr);
+    let sum = arr.reduce((a, b) => a + b, 0);
+    setPossiblePoints(sum);
+  };
+
+  const destinationProps = {
+    handleScore: handleScore,
+    handlePossiblePoints: handlePossiblePoints,
   };
   return (
     <Box mb={2}>
@@ -167,46 +188,44 @@ const DestinationContainer = ({
           <Typography variant="button">Destinations</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {points > 0 && (
-            <Box className="mb-4">
-              <Typography align="center" color="primary" variant="subtitle2">
-                Points from Destinations: {points}
-              </Typography>
+          <Box className="mb-4">
+            <Typography align="center" color="primary" variant="subtitle2">
+              Points from Destinations: {points}/{possiblePoints}
+            </Typography>
 
-              <Box className="d-flex justify-content-center align-items-center">
-                {stealthMode && (
-                  <>
-                    <IconButton onClick={() => setStealthMode(false)}>
-                      <FontAwesomeIcon icon={faToggleOn} size="2xs" />
-                    </IconButton>{" "}
-                    <Typography variant="subtitle2" component="span">
-                      Stealth Mode
-                    </Typography>
-                  </>
-                )}
-                {!stealthMode && (
-                  <>
-                    <IconButton onClick={() => setStealthMode(true)}>
-                      <FontAwesomeIcon icon={faToggleOff} size="2xs" />
-                    </IconButton>{" "}
-                    <Typography variant="subtitle2" component="span">
-                      Stealth Mode
-                    </Typography>
-                  </>
-                )}
-              </Box>
+            <Box className="d-flex justify-content-center align-items-center">
+              {stealthMode && (
+                <>
+                  <IconButton onClick={() => setStealthMode(false)}>
+                    <FontAwesomeIcon icon={faToggleOn} size="2xs" />
+                  </IconButton>{" "}
+                  <Typography variant="subtitle2" component="span">
+                    Stealth Mode
+                  </Typography>
+                </>
+              )}
+              {!stealthMode && (
+                <>
+                  <IconButton onClick={() => setStealthMode(true)}>
+                    <FontAwesomeIcon icon={faToggleOff} size="2xs" />
+                  </IconButton>{" "}
+                  <Typography variant="subtitle2" component="span">
+                    Stealth Mode
+                  </Typography>
+                </>
+              )}
             </Box>
-          )}
-          <Destination {...props} />
-          <Destination {...props} />
-          <Destination {...props} />
-          {count > 3 && <Destination {...props} />}
-          {count > 4 && <Destination {...props} />}
-          {count > 5 && <Destination {...props} />}
-          {count > 6 && <Destination {...props} />}
-          {count > 7 && <Destination {...props} />}
-          {count > 8 && <Destination {...props} />}
-          {count > 9 && <Destination {...props} />}
+          </Box>
+          <Destination id={0} {...destinationProps} />
+          <Destination id={1} {...destinationProps} />
+          <Destination id={2} {...destinationProps} />
+          {count > 3 && <Destination id={3} {...destinationProps} />}
+          {count > 4 && <Destination id={4} {...destinationProps} />}
+          {count > 5 && <Destination id={5} {...destinationProps} />}
+          {count > 9 && <Destination id={6} {...destinationProps} />}
+          {count > 6 && <Destination id={7} {...destinationProps} />}
+          {count > 7 && <Destination id={8} {...destinationProps} />}
+          {count > 8 && <Destination id={9} {...destinationProps} />}
           {count < 10 && (
             <Button onClick={handleAdd}>
               <FontAwesomeIcon icon={faPlus} size="sm" className="me-2" /> Add
@@ -222,10 +241,13 @@ DestinationContainer.propTypes = {
   points: PropTypes.number.isRequired,
   stealthMode: PropTypes.bool.isRequired,
   setStealthMode: PropTypes.func.isRequired,
+  handleScore: PropTypes.func.isRequired,
 };
 
 Destination.propTypes = {
   handleScore: PropTypes.func.isRequired,
+  handlePossiblePoints: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 export default DestinationContainer;
