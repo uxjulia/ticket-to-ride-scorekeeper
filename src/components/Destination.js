@@ -5,13 +5,10 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
-  faEye,
-  faEyeSlash,
   faToggleOn,
   faToggleOff,
 } from "@fortawesome/pro-regular-svg-icons";
@@ -28,18 +25,16 @@ const marks = [
 
 const DestinationSlider = ({ handleChange }) => {
   return (
-    <Box>
-      <Slider
-        aria-label="Destination"
-        defaultValue={50}
-        getAriaValueText={(value) => value}
-        valueLabelDisplay="off"
-        step={null}
-        marks={marks}
-        track={false}
-        onChangeCommitted={handleChange}
-      />
-    </Box>
+    <Slider
+      aria-label="Destination"
+      defaultValue={50}
+      getAriaValueText={(value) => value}
+      valueLabelDisplay="off"
+      step={null}
+      marks={marks}
+      track={false}
+      onChangeCommitted={handleChange}
+    />
   );
 };
 
@@ -49,7 +44,6 @@ DestinationSlider.propTypes = {
 
 const Destination = ({ id, handleScore, handlePossiblePoints }) => {
   const [value, setValue] = React.useState("");
-  const [show, setShow] = React.useState(true);
   const [status, setStatus] = React.useState(0);
   const handleInput = (points) => {
     setValue(points);
@@ -96,9 +90,6 @@ const Destination = ({ id, handleScore, handlePossiblePoints }) => {
       setStatus(-1);
     }
   };
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
   return (
     <div className="mb-3">
       <Box className="d-flex align-items-center">
@@ -106,39 +97,24 @@ const Destination = ({ id, handleScore, handlePossiblePoints }) => {
         <Box className="w-100">
           <CustomInput
             autoComplete="off"
-            type={show ? "number" : "password"}
+            type="number"
             fullWidth
+            size="small"
             label="Point Value"
             onChange={(e) => handleInput(e.target.value)}
             value={value}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShow(!show)}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {show ? (
-                      <FontAwesomeIcon icon={faEyeSlash} size="2xs" />
-                    ) : (
-                      <FontAwesomeIcon icon={faEye} size="2xs" />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
           />
         </Box>
       </Box>
       {value !== "" && (
         <Box
           sx={{
+            borderBottom: "1px solid #bbb",
             margin: "auto",
-            width: "80%",
-            marginBottom: "2rem",
-            marginTop: "1rem",
+            width: "75%",
+            paddingBottom: ".5rem",
+            marginBottom: "1.5rem",
+            marginTop: ".5rem",
           }}
         >
           <DestinationSlider handleChange={handleChange} />
