@@ -168,30 +168,33 @@ const DestinationContainer = ({
         </AccordionSummary>
         <AccordionDetails>
           {points > 0 && (
-            <Box className="d-flex justify-content-between align-content-center mb-4">
-              {stealthMode && (
-                <Box>
-                  <IconButton onClick={() => setStealthMode(false)}>
-                    <FontAwesomeIcon icon={faToggleOn} size="2xs" />
-                  </IconButton>{" "}
-                  <Typography variant="subtitle2" component="span">
-                    Stealth Mode
-                  </Typography>
-                </Box>
-              )}
-              {!stealthMode && (
-                <Box>
-                  <IconButton onClick={() => setStealthMode(true)}>
-                    <FontAwesomeIcon icon={faToggleOff} size="2xs" />
-                  </IconButton>{" "}
-                  <Typography variant="subtitle2" component="span">
-                    Stealth Mode
-                  </Typography>
-                </Box>
-              )}
-              <Typography color="primary" variant="subtitle2" component="span">
+            <Box className="mb-4">
+              <Typography align="center" color="primary" variant="subtitle2">
                 Points from Destinations: {points}
               </Typography>
+
+              <Box className="d-flex justify-content-center align-items-center">
+                {stealthMode && (
+                  <>
+                    <IconButton onClick={() => setStealthMode(false)}>
+                      <FontAwesomeIcon icon={faToggleOn} size="2xs" />
+                    </IconButton>{" "}
+                    <Typography variant="subtitle2" component="span">
+                      Stealth Mode
+                    </Typography>
+                  </>
+                )}
+                {!stealthMode && (
+                  <>
+                    <IconButton onClick={() => setStealthMode(true)}>
+                      <FontAwesomeIcon icon={faToggleOff} size="2xs" />
+                    </IconButton>{" "}
+                    <Typography variant="subtitle2" component="span">
+                      Stealth Mode
+                    </Typography>
+                  </>
+                )}
+              </Box>
             </Box>
           )}
           <Destination {...props} />

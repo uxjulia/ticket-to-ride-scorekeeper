@@ -113,8 +113,12 @@ function App() {
         <Header title="Ticket to Ride - Score Keeper" />
         <Box
           sx={{
-            position: "sticky",
-            top: "10px",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            position: "fixed",
+            top: "0",
+            left: "0",
+            right: "0",
             backgroundColor: "#ffffff",
             zIndex: "2",
           }}
@@ -132,7 +136,7 @@ function App() {
             )}
           </div>
         </Box>
-        <div className="container mt-3 mb-4">
+        <div className="container mt-3 mb-4" style={{ paddingTop: "100px" }}>
           <CustomTheme>
             <div className="row">
               <div className="col-md-6">
