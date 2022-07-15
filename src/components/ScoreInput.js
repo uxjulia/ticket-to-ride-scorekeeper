@@ -103,7 +103,7 @@ const ScoreInput = ({ onClick }) => {
         size="large"
         variant="contained"
         onClick={() => handleClick(10)}
-        id="10"
+        id={21}
       >
         <Typography mr={2}>5 - (10 pts)</Typography>
         <div className="d-inline-flex justify-content-end">
@@ -126,6 +126,28 @@ const ScoreInput = ({ onClick }) => {
       >
         <Typography mr={1}>6 - (15 pts)</Typography>
         <div className="d-inline-flex justify-content-end">
+          <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
+          <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
+          <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
+          <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
+          <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
+          <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
+        </div>
+      </Button>
+      <Button
+        key="21"
+        className="my-2 ps-4 justify-content-between"
+        color="light"
+        fullWidth
+        size="large"
+        variant="contained"
+        onClick={() => handleClick(21)}
+        id={21}
+      >
+        <Typography mr={1}>8 - (21 pts)</Typography>
+        <div className="d-inline-flex justify-content-end">
+          <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
+          <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
           <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
           <FontAwesomeIcon icon={faVanShuttle} className="me-1" />
           <FontAwesomeIcon icon={faVanShuttle} className="me-1" />

@@ -7,6 +7,7 @@ import ScoreInput from "./components/ScoreInput";
 import HistoryLog from "./components/HistoryLog";
 import Scoreboard from "./components/Scoreboard";
 import Destination from "./components/Destination";
+import StationTracker from "./components/StationTracker";
 import Header from "./components/Header";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -45,6 +46,7 @@ function App() {
   const [history, setHistory] = React.useState([]);
   const [reset, setReset] = React.useState(new Date());
   const [destinationPoints, setDestinationPoints] = React.useState(0);
+  const [stationPoints, setStationPoints] = React.useState(0);
   const [stealthMode, setStealthMode] = React.useState(false);
 
   React.useEffect(() => {
@@ -56,9 +58,7 @@ function App() {
     let dPoints = history.map((event) => {
       return event.type === "destination" ? event.points : 0;
     });
-    console.log("dpoints", dPoints);
     let sum = dPoints.length === 0 ? 0 : dPoints.reduce((a, b) => a + b, 0);
-    console.log("sum", sum);
     return sum;
   };
 
@@ -74,6 +74,11 @@ function App() {
     let p = +points;
     setScore(score + p);
     handleHistory(event, p, type);
+  };
+
+  const handleStationPoints = (e, p, t) => {
+    setStationPoints(p);
+    handleHistory(e, p, t);
   };
 
   const handleUndo = () => {
@@ -132,7 +137,7 @@ function App() {
                 }
               />
             ) : (
-              <Scoreboard score={score} />
+              <Scoreboard score={score + stationPoints} />
             )}
           </div>
         </Box>
@@ -190,6 +195,7 @@ function App() {
                     key={reset}
                   />
                 </Box>
+                <StationTracker handleScore={handleStationPoints} />
                 <HistoryLog history={history} />
                 <Button
                   variant="contained"

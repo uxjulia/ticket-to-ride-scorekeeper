@@ -137,11 +137,9 @@ const DestinationContainer = ({
     setCount(count + 1);
   };
   const handlePossiblePoints = (id, points) => {
-    console.log("handlePossiblePoints", points);
     let p = +points;
     let arr = possiblePointsArr;
     arr[id] = p;
-    console.log(arr);
     setPossiblePointsArr(arr);
     let sum = arr.reduce((a, b) => a + b, 0);
     setPossiblePoints(sum);
