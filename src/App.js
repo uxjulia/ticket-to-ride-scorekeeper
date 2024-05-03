@@ -106,7 +106,7 @@ function App() {
 
   const handleLongestRoad = (e) => {
     if (e.target.checked) {
-      handleScore("Acheived longest path", 10, "path");
+      handleScore("Achieved longest path", 10, "path");
     } else {
       handleScore("Lost longest path", -Math.abs(10), "path");
     }
