@@ -53,10 +53,10 @@ const Destination = ({ id, handleScore, handlePossiblePoints }) => {
     if (val === 100) {
       if (status === -1) {
         let nScore = value * 2;
-        handleScore("Reached desination", nScore, "destination");
+        handleScore("Reached destination", nScore, "destination");
       }
       if (status === 0) {
-        handleScore("Reached desination", value, "destination");
+        handleScore("Reached destination", value, "destination");
       }
       setStatus(1);
     } else if (val === 50) {
